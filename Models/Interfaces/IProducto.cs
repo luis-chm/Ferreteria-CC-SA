@@ -6,6 +6,5 @@
         string Nombre { get; set; }
         string Descripcion { get; set; }
         decimal Precio { get; set; }
-        int Cantidad { get; set; }
     }
 }
