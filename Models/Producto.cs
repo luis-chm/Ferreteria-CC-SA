@@ -13,15 +13,17 @@ namespace Ferreteria_CC_SA.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public decimal Precio { get; set; }
+        public int Stock { get; set; }
 
         public Producto() { }
 
-        public Producto(int idproducto, string nombre, string descripcion, decimal precio, int cantidad)
+        public Producto(int idproducto, string nombre, string descripcion, decimal precio, int stock)
         {
             IDProducto = idproducto;
             Nombre = nombre;
             Descripcion = descripcion;
             Precio = precio;
+            Stock = stock;
         }
 
     }

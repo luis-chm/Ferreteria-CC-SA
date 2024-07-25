@@ -29,7 +29,7 @@ namespace Ferreteria_CC_SA.Views
             formCajero.Show();
         }
 
-        /*private void btnProducto_Click(object sender, EventArgs e)
+        private void btnProducto_Click(object sender, EventArgs e)
         {
             if (formInventario == null)
             {
@@ -41,7 +41,7 @@ namespace Ferreteria_CC_SA.Views
             formInventario.Show();
         }
 
-        private void btnCliente_Click(object sender, EventArgs e)
+       /* private void btnCliente_Click(object sender, EventArgs e)
         {
             if (formCliente == null)
             {
