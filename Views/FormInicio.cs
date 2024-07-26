@@ -11,6 +11,7 @@ namespace Ferreteria_CC_SA.Views
         private FormCajero formCajero;
         private FormCliente formCliente;
         private FormVenta formVenta;
+
         public FormInicio()
         {
             InitializeComponent();
@@ -21,7 +22,8 @@ namespace Ferreteria_CC_SA.Views
         {
             if (formCajero == null)
             {
-                ICajeroController cajeroController = new CajeroController();
+                IFileHandler fileHandler = new FileController();
+                ICajeroController cajeroController = new CajeroController(fileHandler);
                 formCajero = new FormCajero(cajeroController);
                 formCajero.FormClosed += (s, args) => this.Show();
             }
@@ -29,7 +31,7 @@ namespace Ferreteria_CC_SA.Views
             formCajero.Show();
         }
 
-        private void btnProducto_Click(object sender, EventArgs e)
+        /*private void btnProducto_Click(object sender, EventArgs e)
         {
             if (formInventario == null)
             {
@@ -41,7 +43,7 @@ namespace Ferreteria_CC_SA.Views
             formInventario.Show();
         }
 
-       /* private void btnCliente_Click(object sender, EventArgs e)
+       private void btnCliente_Click(object sender, EventArgs e)
         {
             if (formCliente == null)
             {

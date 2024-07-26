@@ -16,7 +16,7 @@ namespace Ferreteria_CC_SA.Views
     {
         private ProductoController productoController;
 
-        public FormInventario()
+        /*public FormInventario()
         {
             InitializeComponent();
             string filePath = "productos.csv";
@@ -90,6 +90,6 @@ namespace Ferreteria_CC_SA.Views
             {
                 MessageBox.Show($"Error al eliminar producto: {ex.Message}");
             }
-        }
+        }*/
     }
 }

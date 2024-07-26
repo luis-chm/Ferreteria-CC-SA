@@ -1,19 +1,20 @@
 ﻿using Ferreteria_CC_SA.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ferreteria_CC_SA.Controllers
 {
-    public class ProductoController : IProductoController
+    public class ProductoController 
     {
         private List<IProducto> productos;
         private IFileHandler fileController;
         private string filePath;
 
-        public ProductoController(IFileHandler fileController, string filePath)
+        /*public ProductoController(IFileHandler fileController, string filePath)
         {
             this.fileController = fileController;
             this.filePath = filePath;
@@ -109,6 +110,6 @@ namespace Ferreteria_CC_SA.Controllers
             {
                 throw new KeyNotFoundException($"No se encontró un producto con ID {idProducto}.");
             }
-        }
+        }*/
     }
 }

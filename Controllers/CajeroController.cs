@@ -3,35 +3,48 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Ferreteria_CC_SA.Controllers
 {
+    /// <summary>
+    /// Represents the model of a cashier controller
+    /// </summary>
+    /// <seealso cref="Ferreteria_CC_SA.Controllers.ICajeroController" />
     public class CajeroController : ICajeroController
     {
+        /// <summary>
+        /// A list of cashiers
+        /// </summary>
         private List<ICajero> cajeros;
-
-        public CajeroController()
+        /// <summary>
+        /// The file handler
+        /// </summary>
+        private readonly IFileHandler fileHandler;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CajeroController"/> class.
+        /// </summary>
+        /// <param name="fileHandler">The file handler.</param>
+        public CajeroController(IFileHandler fileHandler)
         {
             cajeros = new List<ICajero>();
+            this.fileHandler = fileHandler;
         }
+        /// <summary>
+        /// Gets the cashier.
+        /// </summary>
+        /// <returns></returns>
         public List<ICajero> GetCashier()
         {
             return cajeros;
         }
-        private void CreateNewFile(string path)
-        {
-            using (var stream = File.Create(path))
-            {
-                string header = "IDCajero,Nombre,Apellido,Usuario,Contrasena\n";
-                byte[] headerBytes = new UTF8Encoding(true).GetBytes(header);
-                stream.Write(headerBytes, 0, headerBytes.Length);
-                MessageBox.Show("El archivo de cajeros no se encontró y se creó uno nuevo. Por favor, agregue cajeros.");
-                return;
-            }
-        }
+        /// <summary>
+        /// Loads the cashier.
+        /// </summary>
+        /// <param name="path">The path.</param>
         public void LoadCashier(string path)
         {
             cajeros.Clear();
@@ -39,9 +52,12 @@ namespace Ferreteria_CC_SA.Controllers
             {
                 if (!File.Exists(path))
                 {
-                    CreateNewFile(path);
+                    string header = "IDCajero,Nombre,Apellido,Usuario,Contrasena\n";
+                    fileHandler.CreateNewFile(path, header);
+                    MessageBox.Show("El archivo de cajeros no se encontró y se creó uno nuevo.\nPor favor, ingrese con usuario administrador.");
+                    return;
                 }
-                var content = File.ReadAllText(path);
+                var content = fileHandler.LoadFile(path);
                 var lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var line in lines.Skip(1))
@@ -81,26 +97,36 @@ namespace Ferreteria_CC_SA.Controllers
                 MessageBox.Show($"Error al cargar cajeros: {ex.Message}");
             }
         }
+        /// <summary>
+        /// Saves the cashier.
+        /// </summary>
+        /// <param name="path">The path.</param>
         public void SaveCashier(string path)
         {
             try
             {
                 var lines = new List<string>
-                {
-                    "IDCajero,Nombre,Apellido,Usuario,Contrasena"
-                };
+            {
+                "IDCajero,Nombre,Apellido,Usuario,Contrasena"
+            };
 
                 foreach (var c in cajeros)
                 {
                     lines.Add($"{c.IDCajero},{c.Nombre},{c.Apellido},{c.Usuario},{c.Contrasena}");
                 }
-                File.WriteAllLines(path, lines);
+
+                fileHandler.WriteAllLines(path, lines.ToArray());
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al guardar cajeros: {ex.Message}");
             }
         }
+        /// <summary>
+        /// Adds the cashier.
+        /// </summary>
+        /// <param name="cajero">The cajero.</param>
+        /// <returns></returns>
         public bool AddCashier(ICajero cajero)
         {
             if (cajeros.Any(c => c.IDCajero == cajero.IDCajero))
@@ -111,18 +137,48 @@ namespace Ferreteria_CC_SA.Controllers
             cajeros.Add(cajero);
             return true;
         }
-        public void EditCashier(ICajero cajero)
+        /// <summary>
+        /// Edits the cashier.
+        /// </summary>
+        /// <param name="oldID">The old identifier.</param>
+        /// <param name="newCajero">The new cajero.</param>
+        public void EditCashier(int oldID, ICajero newCajero)
         {
             try
             {
-                var caj = cajeros.FirstOrDefault(c => c.IDCajero == cajero.IDCajero);
-                if (caj != null)
+                var existingCajero = cajeros.FirstOrDefault(c => c.IDCajero == oldID);
+                if (existingCajero != null)
                 {
-                    caj.IDCajero = cajero.IDCajero;
-                    caj.Nombre = cajero.Nombre;
-                    caj.Apellido = cajero.Apellido;
-                    caj.Usuario = cajero.Usuario;
-                    caj.Contrasena = cajero.Contrasena;
+                    // If the ID has changed, remove the old record
+                    if (oldID != newCajero.IDCajero)
+                    {
+                        // Check if new ID already exists
+                        if (cajeros.Any(c => c.IDCajero == newCajero.IDCajero))
+                        {
+                            MessageBox.Show("El ID del cajero ya existe.");
+                            return;
+                        }
+
+                        // Remove the old record
+                        cajeros.Remove(existingCajero);
+                    }
+
+                    // Update or add the new record
+                    existingCajero.IDCajero = newCajero.IDCajero;
+                    existingCajero.Nombre = newCajero.Nombre;
+                    existingCajero.Apellido = newCajero.Apellido;
+                    existingCajero.Usuario = newCajero.Usuario;
+                    existingCajero.Contrasena = newCajero.Contrasena;
+
+                    // Add the new record if the ID was changed
+                    if (oldID != newCajero.IDCajero)
+                    {
+                        cajeros.Add(existingCajero);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Cajero no encontrado.");
                 }
             }
             catch (Exception ex)
@@ -130,6 +186,10 @@ namespace Ferreteria_CC_SA.Controllers
                 MessageBox.Show($"Error al editar cajero: {ex.Message}");
             }
         }
+        /// <summary>
+        /// Deletes the cashier.
+        /// </summary>
+        /// <param name="idCajero">The identifier cajero.</param>
         public void DeleteCashier(int idCajero)
         {
             try
@@ -145,13 +205,38 @@ namespace Ferreteria_CC_SA.Controllers
                 MessageBox.Show($"Error al eliminar cajero: {ex.Message}");
             }
         }
+        /// <summary>
+        /// Finds the cashier by identifier.
+        /// </summary>
+        /// <param name="idCajero">The identifier cajero.</param>
+        /// <returns></returns>
         public ICajero FindCashierByID(int idCajero)
         {
             return cajeros.FirstOrDefault(c => c.IDCajero == idCajero);
         }
-        public bool CheckLogin(string usuario, string contrasena)
+        /// <summary>
+        /// Checks the cashier by parameters
+        /// </summary>
+        /// <param name="usuario">The usuario.</param>
+        /// <param name="contrasena">The contrasena.</param>
+        /// <returns></returns>
+        public bool CheckCashier(string usuario, string contrasena)
         {
             return cajeros.Any(c => c.Usuario == usuario && c.Contrasena == contrasena);
+        }
+        /// <summary>
+        /// Generates the initial cashiers.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        public void GenerateInitialCashiers(string path)
+        {
+            var initialCashiers = new List<ICajero>
+                {
+                    new Cajero { IDCajero = 1, Nombre = "Cajero", Apellido = "00", Usuario = "admin", Contrasena = "1234" }
+                };
+            cajeros.Clear();
+            cajeros.AddRange(initialCashiers);
+            SaveCashier(path);
         }
     }
 }

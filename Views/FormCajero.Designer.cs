@@ -49,16 +49,17 @@
             // 
             // btnEliminarCajero
             // 
-            this.btnEliminarCajero.Location = new System.Drawing.Point(243, 496);
+            this.btnEliminarCajero.Location = new System.Drawing.Point(189, 415);
             this.btnEliminarCajero.Name = "btnEliminarCajero";
             this.btnEliminarCajero.Size = new System.Drawing.Size(75, 23);
             this.btnEliminarCajero.TabIndex = 47;
             this.btnEliminarCajero.Text = "Eliminar";
             this.btnEliminarCajero.UseVisualStyleBackColor = true;
+            this.btnEliminarCajero.Click += new System.EventHandler(this.btnEliminarCajero_Click);
             // 
             // btnBuscarCajero
             // 
-            this.btnBuscarCajero.Location = new System.Drawing.Point(920, 127);
+            this.btnBuscarCajero.Location = new System.Drawing.Point(866, 46);
             this.btnBuscarCajero.Name = "btnBuscarCajero";
             this.btnBuscarCajero.Size = new System.Drawing.Size(75, 23);
             this.btnBuscarCajero.TabIndex = 46;
@@ -67,33 +68,35 @@
             // 
             // txtBuscarID
             // 
-            this.txtBuscarID.Location = new System.Drawing.Point(742, 127);
+            this.txtBuscarID.Location = new System.Drawing.Point(688, 46);
             this.txtBuscarID.Name = "txtBuscarID";
             this.txtBuscarID.Size = new System.Drawing.Size(172, 22);
             this.txtBuscarID.TabIndex = 45;
             // 
             // btnEditarCajero
             // 
-            this.btnEditarCajero.Location = new System.Drawing.Point(162, 496);
+            this.btnEditarCajero.Location = new System.Drawing.Point(108, 415);
             this.btnEditarCajero.Name = "btnEditarCajero";
             this.btnEditarCajero.Size = new System.Drawing.Size(75, 23);
             this.btnEditarCajero.TabIndex = 44;
             this.btnEditarCajero.Text = "Editar";
             this.btnEditarCajero.UseVisualStyleBackColor = true;
+            this.btnEditarCajero.Click += new System.EventHandler(this.btnEditarCajero_Click);
             // 
             // btnAgregarCajero
             // 
-            this.btnAgregarCajero.Location = new System.Drawing.Point(81, 496);
+            this.btnAgregarCajero.Location = new System.Drawing.Point(27, 415);
             this.btnAgregarCajero.Name = "btnAgregarCajero";
             this.btnAgregarCajero.Size = new System.Drawing.Size(75, 23);
             this.btnAgregarCajero.TabIndex = 43;
             this.btnAgregarCajero.Text = "Agregar";
             this.btnAgregarCajero.UseVisualStyleBackColor = true;
+            this.btnAgregarCajero.Click += new System.EventHandler(this.btnAgregarCajero_Click);
             // 
             // dgvCajeros
             // 
             this.dgvCajeros.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCajeros.Location = new System.Drawing.Point(305, 155);
+            this.dgvCajeros.Location = new System.Drawing.Point(251, 74);
             this.dgvCajeros.Name = "dgvCajeros";
             this.dgvCajeros.RowHeadersWidth = 51;
             this.dgvCajeros.RowTemplate.Height = 24;
@@ -103,7 +106,7 @@
             // lblContraseña
             // 
             this.lblContraseña.AutoSize = true;
-            this.lblContraseña.Location = new System.Drawing.Point(95, 387);
+            this.lblContraseña.Location = new System.Drawing.Point(41, 306);
             this.lblContraseña.Name = "lblContraseña";
             this.lblContraseña.Size = new System.Drawing.Size(76, 16);
             this.lblContraseña.TabIndex = 41;
@@ -111,15 +114,16 @@
             // 
             // txtContrasena
             // 
-            this.txtContrasena.Location = new System.Drawing.Point(98, 410);
+            this.txtContrasena.Location = new System.Drawing.Point(44, 329);
             this.txtContrasena.Name = "txtContrasena";
+            this.txtContrasena.PasswordChar = '*';
             this.txtContrasena.Size = new System.Drawing.Size(172, 22);
             this.txtContrasena.TabIndex = 40;
             // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(95, 324);
+            this.lblUsername.Location = new System.Drawing.Point(41, 243);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(70, 16);
             this.lblUsername.TabIndex = 39;
@@ -127,7 +131,7 @@
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(98, 347);
+            this.txtUsuario.Location = new System.Drawing.Point(44, 266);
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(172, 22);
             this.txtUsuario.TabIndex = 38;
@@ -135,7 +139,7 @@
             // lblApellido
             // 
             this.lblApellido.AutoSize = true;
-            this.lblApellido.Location = new System.Drawing.Point(95, 258);
+            this.lblApellido.Location = new System.Drawing.Point(41, 177);
             this.lblApellido.Name = "lblApellido";
             this.lblApellido.Size = new System.Drawing.Size(57, 16);
             this.lblApellido.TabIndex = 37;
@@ -143,7 +147,7 @@
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(98, 281);
+            this.txtApellido.Location = new System.Drawing.Point(44, 200);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(172, 22);
             this.txtApellido.TabIndex = 36;
@@ -151,7 +155,7 @@
             // lblCajeroNombre
             // 
             this.lblCajeroNombre.AutoSize = true;
-            this.lblCajeroNombre.Location = new System.Drawing.Point(95, 193);
+            this.lblCajeroNombre.Location = new System.Drawing.Point(41, 112);
             this.lblCajeroNombre.Name = "lblCajeroNombre";
             this.lblCajeroNombre.Size = new System.Drawing.Size(99, 16);
             this.lblCajeroNombre.TabIndex = 35;
@@ -159,7 +163,7 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(98, 216);
+            this.txtNombre.Location = new System.Drawing.Point(44, 135);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(172, 22);
             this.txtNombre.TabIndex = 34;
@@ -167,7 +171,7 @@
             // lblCajeroID
             // 
             this.lblCajeroID.AutoSize = true;
-            this.lblCajeroID.Location = new System.Drawing.Point(95, 132);
+            this.lblCajeroID.Location = new System.Drawing.Point(41, 51);
             this.lblCajeroID.Name = "lblCajeroID";
             this.lblCajeroID.Size = new System.Drawing.Size(63, 16);
             this.lblCajeroID.TabIndex = 33;
@@ -175,7 +179,7 @@
             // 
             // txtIDCajero
             // 
-            this.txtIDCajero.Location = new System.Drawing.Point(98, 155);
+            this.txtIDCajero.Location = new System.Drawing.Point(44, 74);
             this.txtIDCajero.Name = "txtIDCajero";
             this.txtIDCajero.Size = new System.Drawing.Size(172, 22);
             this.txtIDCajero.TabIndex = 32;
@@ -184,7 +188,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1076, 646);
+            this.ClientSize = new System.Drawing.Size(978, 518);
             this.Controls.Add(this.btnEliminarCajero);
             this.Controls.Add(this.btnBuscarCajero);
             this.Controls.Add(this.txtBuscarID);

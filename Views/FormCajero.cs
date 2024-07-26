@@ -19,8 +19,19 @@ namespace Ferreteria_CC_SA.Views
         {
             InitializeComponent();
             this.cajeroController = cajeroController;
-            this.cajeroController.LoadCashier("cajeros.csv");
-            ActualizarDataGridView();
+            CargarCajeros();
+        }
+        private void CargarCajeros()
+        {
+            try
+            {
+                cajeroController.LoadCashier("cajeros.csv");
+                ActualizarDataGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar cajeros: {ex.Message}");
+            }
         }
         private void btnAgregarCajero_Click(object sender, EventArgs e)
         {
@@ -65,7 +76,10 @@ namespace Ferreteria_CC_SA.Views
                         Usuario = txtUsuario.Text,
                         Contrasena = txtContrasena.Text
                     };
-                    cajeroController.EditCashier(cajero);
+
+                    int oldID = int.Parse(txtBuscarID.Text); // Assuming you have a field to store the old ID
+
+                    cajeroController.EditCashier(oldID, cajero);
                     cajeroController.SaveCashier("cajeros.csv");
                     ActualizarDataGridView();
                     MessageBox.Show("Cajero editado exitosamente.");
@@ -96,14 +110,14 @@ namespace Ferreteria_CC_SA.Views
         {
             if (int.TryParse(txtBuscarID.Text, out int idCajero))
             {
-                CargarCajero(idCajero);
+                ObtenerCajero(idCajero);
             }
             else
             {
                 MessageBox.Show("Por favor, ingrese un ID de cajero válido.");
             }
         }
-        private void CargarCajero(int idCajero)
+        private void ObtenerCajero(int idCajero)
         {
             var cajero = cajeroController.FindCashierByID(idCajero);
             if (cajero != null)
@@ -129,12 +143,7 @@ namespace Ferreteria_CC_SA.Views
                 string.IsNullOrWhiteSpace(txtUsuario.Text) ||
                 string.IsNullOrWhiteSpace(txtContrasena.Text))
             {
-                MessageBox.Show("Todos los campos son obligatorios.");
-                return false;
-            }
-            if (!int.TryParse(txtIDCajero.Text, out _))
-            {
-                MessageBox.Show("Por favor, ingrese un ID válido.");
+                MessageBox.Show("Por favor, complete todos los campos del cajero.");
                 return false;
             }
             return true;
@@ -151,10 +160,6 @@ namespace Ferreteria_CC_SA.Views
         {
             dgvCajeros.DataSource = null;
             dgvCajeros.DataSource = cajeroController.GetCashier();
-        }
-        private void FormCajero_Load(object sender, EventArgs e)
-        {
-            // Additional initialization if needed
         }
     }
 }
