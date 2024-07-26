@@ -137,48 +137,27 @@ namespace Ferreteria_CC_SA.Controllers
             cajeros.Add(cajero);
             return true;
         }
+
         /// <summary>
         /// Edits the cashier.
         /// </summary>
-        /// <param name="oldID">The old identifier.</param>
-        /// <param name="newCajero">The new cajero.</param>
-        public void EditCashier(int oldID, ICajero newCajero)
+        /// <param name="cajero">The cajero.</param>
+        public void EditCashier(ICajero cajero)
         {
             try
             {
-                var existingCajero = cajeros.FirstOrDefault(c => c.IDCajero == oldID);
-                if (existingCajero != null)
+                var actualCashier = cajeros.FirstOrDefault(c => c.IDCajero == cajero.IDCajero);
+                if (actualCashier != null)
                 {
-                    // If the ID has changed, remove the old record
-                    if (oldID != newCajero.IDCajero)
-                    {
-                        // Check if new ID already exists
-                        if (cajeros.Any(c => c.IDCajero == newCajero.IDCajero))
-                        {
-                            MessageBox.Show("El ID del cajero ya existe.");
-                            return;
-                        }
-
-                        // Remove the old record
-                        cajeros.Remove(existingCajero);
-                    }
-
-                    // Update or add the new record
-                    existingCajero.IDCajero = newCajero.IDCajero;
-                    existingCajero.Nombre = newCajero.Nombre;
-                    existingCajero.Apellido = newCajero.Apellido;
-                    existingCajero.Usuario = newCajero.Usuario;
-                    existingCajero.Contrasena = newCajero.Contrasena;
-
-                    // Add the new record if the ID was changed
-                    if (oldID != newCajero.IDCajero)
-                    {
-                        cajeros.Add(existingCajero);
-                    }
+                    actualCashier.Nombre = cajero.Nombre;
+                    actualCashier.Apellido = cajero.Apellido;
+                    actualCashier.Usuario = cajero.Usuario;
+                    actualCashier.Contrasena = cajero.Contrasena;
+                    SaveCashier("cajeros.csv");
                 }
                 else
                 {
-                    MessageBox.Show("Cajero no encontrado.");
+                    MessageBox.Show("El cajero con el ID proporcionado no existe.");
                 }
             }
             catch (Exception ex)

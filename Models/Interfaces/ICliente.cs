@@ -1,17 +1,17 @@
 ﻿namespace Ferreteria_CC_SA.Models
 {
     /// <summary>
-    /// Represents the model of a product.
+    /// Represents the model of a client.
     /// </summary>
-    public interface IProducto
+    public interface ICliente
     {
         /// <summary>
-        /// Gets or sets the identifier producto.
+        /// Gets or sets the identifier cliente.
         /// </summary>
         /// <value>
-        /// The identifier producto.
+        /// The identifier cliente.
         /// </value>
-        int IDProducto { get; set; }
+        int IDCliente { get; set; }
         /// <summary>
         /// Gets or sets the nombre.
         /// </summary>
@@ -20,25 +20,25 @@
         /// </value>
         string Nombre { get; set; }
         /// <summary>
-        /// Gets or sets the descripcion.
+        /// Gets or sets the apellido.
         /// </summary>
         /// <value>
-        /// The descripcion.
+        /// The apellido.
         /// </value>
-        string Descripcion { get; set; }
+        string Apellido { get; set; }
         /// <summary>
-        /// Gets or sets the precio.
+        /// Gets or sets the correo.
         /// </summary>
         /// <value>
-        /// The precio.
+        /// The correo.
         /// </value>
-        decimal Precio { get; set; }
+        string Correo { get; set; }
         /// <summary>
-        /// Gets or sets the stock.
+        /// Gets or sets the telefono.
         /// </summary>
         /// <value>
-        /// The stock.
+        /// The telefono.
         /// </value>
-        int Stock { get; set; }
+        string Telefono { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Ferreteria_CC_SA.Controllers
 {
@@ -14,7 +15,7 @@ namespace Ferreteria_CC_SA.Controllers
         private IFileHandler fileController;
         private string filePath;
 
-        /*public ProductoController(IFileHandler fileController, string filePath)
+        public ProductoController(IFileHandler fileController, string filePath)
         {
             this.fileController = fileController;
             this.filePath = filePath;
@@ -78,24 +79,28 @@ namespace Ferreteria_CC_SA.Controllers
             productos.Add(producto);
         }
 
-        public void EditarProducto(int oldID, IProducto producto)
+        public void EditarProducto(IProducto producto)
         {
-            var prod = productos.FirstOrDefault(p => p.IDProducto == oldID);
-            if (prod != null)
+            try
             {
-                if (productos.Any(p => p.IDProducto == producto.IDProducto && p.IDProducto != oldID))
+                var product = productos.FirstOrDefault(c => c.IDProducto == producto.IDProducto);
+
+                if (product != null)
                 {
-                    throw new InvalidOperationException($"El producto con ID {producto.IDProducto} ya existe.");
+                    product.Nombre = cliente.Nombre;
+                    product.Apellido = cliente.Apellido;
+                    product.Correo = cliente.Correo;
+                    product.Telefono = cliente.Telefono;
+                    SaveClient("clientes.csv");
                 }
-                prod.IDProducto = producto.IDProducto;
-                prod.Nombre = producto.Nombre;
-                prod.Descripcion = producto.Descripcion;
-                prod.Precio = producto.Precio;
-                prod.Stock = producto.Stock;
+                else
+                {
+                    MessageBox.Show("El cliente con el ID proporcionado no existe.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new KeyNotFoundException($"No se encontró un producto con ID {oldID}.");
+                MessageBox.Show($"Error al editar cliente: {ex.Message}");
             }
         }
 
@@ -110,6 +115,6 @@ namespace Ferreteria_CC_SA.Controllers
             {
                 throw new KeyNotFoundException($"No se encontró un producto con ID {idProducto}.");
             }
-        }*/
+        }
     }
 }

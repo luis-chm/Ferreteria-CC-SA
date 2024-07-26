@@ -35,7 +35,7 @@ namespace Ferreteria_CC_SA.Views
         }
         private void btnAgregarCajero_Click(object sender, EventArgs e)
         {
-            if (ValidarCajero())
+            if (ValidarCampos())
             {
                 try
                 {
@@ -64,7 +64,7 @@ namespace Ferreteria_CC_SA.Views
         }
         private void btnEditarCajero_Click(object sender, EventArgs e)
         {
-            if (ValidarCajero())
+            if (ValidarCampos())
             {
                 try
                 {
@@ -76,13 +76,11 @@ namespace Ferreteria_CC_SA.Views
                         Usuario = txtUsuario.Text,
                         Contrasena = txtContrasena.Text
                     };
-
-                    int oldID = int.Parse(txtBuscarID.Text); // Assuming you have a field to store the old ID
-
-                    cajeroController.EditCashier(oldID, cajero);
+                    cajeroController.EditCashier(cajero);
                     cajeroController.SaveCashier("cajeros.csv");
                     ActualizarDataGridView();
                     MessageBox.Show("Cajero editado exitosamente.");
+                    txtIDCajero.ReadOnly = false;
                     LimpiarCampos();
                 }
                 catch (Exception ex)
@@ -110,14 +108,14 @@ namespace Ferreteria_CC_SA.Views
         {
             if (int.TryParse(txtBuscarID.Text, out int idCajero))
             {
-                ObtenerCajero(idCajero);
+                ObtenerCajeroData(idCajero);
             }
             else
             {
                 MessageBox.Show("Por favor, ingrese un ID de cajero válido.");
             }
         }
-        private void ObtenerCajero(int idCajero)
+        private void ObtenerCajeroData(int idCajero)
         {
             var cajero = cajeroController.FindCashierByID(idCajero);
             if (cajero != null)
@@ -128,14 +126,16 @@ namespace Ferreteria_CC_SA.Views
                 txtUsuario.Text = cajero.Usuario;
                 txtContrasena.Text = cajero.Contrasena;
                 MessageBox.Show($"Cajero con ID {idCajero} encontrado.");
+                txtIDCajero.ReadOnly = true;
                 txtBuscarID.Clear();
             }
             else
             {
                 MessageBox.Show($"Cajero con ID {idCajero} no encontrado.");
+                txtBuscarID.Clear();
             }
         }
-        private bool ValidarCajero()
+        private bool ValidarCampos()
         {
             if (string.IsNullOrWhiteSpace(txtIDCajero.Text) ||
                 string.IsNullOrWhiteSpace(txtNombre.Text) ||

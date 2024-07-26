@@ -41,14 +41,15 @@ namespace Ferreteria_CC_SA.Views
             }
             this.Hide();
             formInventario.Show();
-        }
+        }*/
 
        private void btnCliente_Click(object sender, EventArgs e)
         {
             if (formCliente == null)
             {
-                IClienteController clienteController = new ClienteController();
-                formCliente = new FormCliente();
+                IFileHandler fileHandler = new FileController();
+                IClienteController clienteController = new ClienteController(fileHandler);
+                formCliente = new FormCliente(clienteController);
                 formCliente.FormClosed += (s, args) => this.Show();
             }
             this.Hide();

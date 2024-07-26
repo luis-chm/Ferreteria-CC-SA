@@ -34,7 +34,7 @@ namespace Ferreteria_CC_SA.Controllers
         /// </summary>
         /// <param name="oldID">The old identifier.</param>
         /// <param name="cajero">The cajero.</param>
-        void EditCashier(int oldID, ICajero cajero);
+        void EditCashier(ICajero cajero);
         /// <summary>
         /// Deletes the cashier.
         /// </summary>

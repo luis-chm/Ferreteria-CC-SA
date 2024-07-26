@@ -65,6 +65,7 @@
             this.btnBuscarCajero.TabIndex = 46;
             this.btnBuscarCajero.Text = "Buscar";
             this.btnBuscarCajero.UseVisualStyleBackColor = true;
+            this.btnBuscarCajero.Click += new System.EventHandler(this.btnBuscarCajero_Click);
             // 
             // txtBuscarID
             // 
