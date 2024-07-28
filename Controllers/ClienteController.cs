@@ -18,11 +18,15 @@ namespace Ferreteria_CC_SA.Controllers
         /// </summary>
         private List<ICliente> clientes;
         /// <summary>
+        /// The filepath
+        /// </summary>
+        private static readonly string Filepath = "clientes.csv";
+        /// <summary>
         /// The file handler
         /// </summary>
         private IFileHandler fileHandler;
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClienteController"/> class.
+        /// Initializes a new instance of the <see cref="ClienteController" /> class.
         /// </summary>
         /// <param name="fileHandler">The file handler.</param>
         public ClienteController(IFileHandler fileHandler)
@@ -41,21 +45,25 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Loads the client.
         /// </summary>
-        /// <param name="path">The path.</param>
-        public void LoadClient(string path)
+        /// <exception cref="System.Exception">
+        /// Error en el formato de una línea del archivo: {ex.Message}\nLínea problemática: {line}
+        /// or
+        /// Error al procesar una línea del archivo: {ex.Message}\nLínea problemática: {line}
+        /// </exception>
+        public void LoadClient()
         {
             clientes.Clear();
             try
             {
-                if (!File.Exists(path))
+                if (!File.Exists(Filepath))
                 {
                     string header = "IDCliente,Nombre,Apellido,Correo,Telefono\n";
-                    fileHandler.CreateNewFile(path, header);
+                    fileHandler.CreateNewFile(Filepath, header);
                     MessageBox.Show("El archivo de clientes no se encontró y se creó uno nuevo. Por favor, agregue clientes.");
                     return;
                 }
 
-                var content = fileHandler.LoadFile(path);
+                var content = fileHandler.LoadFile(Filepath);
                 var lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var line in lines.Skip(1))
@@ -77,16 +85,12 @@ namespace Ferreteria_CC_SA.Controllers
                         }
                         catch (FormatException ex)
                         {
-                            MessageBox.Show($"Error en el formato de una línea del archivo: {ex.Message}\nLínea problemática: {line}");
+                            throw new Exception($"Error en el formato de una línea del archivo: {ex.Message}\nLínea problemática: {line}");
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Error al procesar una línea del archivo: {ex.Message}\nLínea problemática: {line}");
+                            throw new Exception($"Error al procesar una línea del archivo: {ex.Message}\nLínea problemática: {line}");
                         }
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Línea mal formateada en el archivo: {line}");
                     }
                 }
             }
@@ -98,8 +102,8 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Saves the client.
         /// </summary>
-        /// <param name="path">The path.</param>
-        public void SaveClient(string path)
+        /// <exception cref="System.Exception">Error al guardar cliente: {ex.Message}</exception>
+        public void SaveClient()
         {
             try
             {
@@ -112,11 +116,11 @@ namespace Ferreteria_CC_SA.Controllers
                 {
                     lines.Add($"{c.IDCliente},{c.Nombre},{c.Apellido},{c.Correo},{c.Telefono}");
                 }
-                fileHandler.WriteAllLines(path, lines.ToArray());
+                fileHandler.WriteAllLines(Filepath, lines.ToArray());
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar clientes: {ex.Message}");
+                throw new Exception($"Error al guardar cliente: {ex.Message}");
             }
         }
         /// <summary>
@@ -124,20 +128,36 @@ namespace Ferreteria_CC_SA.Controllers
         /// </summary>
         /// <param name="cliente">The cliente.</param>
         /// <returns></returns>
+        /// <exception cref="System.Exception">
+        /// El cliente con ID {cliente.IDCliente} ya existe. Por favor ingrese otro.
+        /// or
+        /// Error al agregar cliente: {ex.Message}
+        /// </exception>
         public bool AddClient(ICliente cliente)
         {
-            if (clientes.Any(c => c.IDCliente == cliente.IDCliente))
+            try
             {
-                MessageBox.Show($"El cliente con ID {cliente.IDCliente} ya existe. Por favor ingrese otro.");
-                return false;
+                if (clientes.Any(c => c.IDCliente == cliente.IDCliente))
+                {
+                    throw new Exception($"El cliente con ID {cliente.IDCliente} ya existe. Por favor ingrese otro.");
+                }
+                clientes.Add(cliente);
+                return true;
             }
-            clientes.Add(cliente);
-            return true;
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al agregar cliente: {ex.Message}");
+            }
         }
         /// <summary>
         /// Edits the client.
         /// </summary>
         /// <param name="cliente">The cliente.</param>
+        /// <exception cref="System.Exception">
+        /// El cliente con el ID proporcionado no existe.
+        /// or
+        /// Error al editar cliente: {ex.Message}
+        /// </exception>
         public void EditClient(ICliente cliente)
         {
             try
@@ -150,22 +170,27 @@ namespace Ferreteria_CC_SA.Controllers
                     client.Apellido = cliente.Apellido;
                     client.Correo = cliente.Correo;
                     client.Telefono = cliente.Telefono;
-                    SaveClient("clientes.csv");
+                    SaveClient();
                 }
                 else
                 {
-                    MessageBox.Show("El cliente con el ID proporcionado no existe.");
+                    throw new Exception("El cliente con el ID proporcionado no existe.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al editar cliente: {ex.Message}");
+                throw new Exception($"Error al editar cliente: {ex.Message}");
             }
         }
         /// <summary>
         /// Deletes the client.
         /// </summary>
         /// <param name="idCliente">The identifier cliente.</param>
+        /// <exception cref="System.Exception">
+        /// El cliente con el ID proporcionado no existe.
+        /// or
+        /// Error al eliminar cliente: {ex.Message}
+        /// </exception>
         public void DeleteClient(int idCliente)
         {
             try
@@ -175,10 +200,15 @@ namespace Ferreteria_CC_SA.Controllers
                 {
                     clientes.Remove(cliente);
                 }
+                else
+                {
+                    throw new Exception("El cliente con el ID proporcionado no existe.");
+
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar cliente: {ex.Message}");
+                throw new Exception($"Error al eliminar cliente: {ex.Message}");
             }
         }
         /// <summary>

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Ferreteria_CC_SA.Controllers
 {
-    public class ProductoController 
+    /*public class ProductoController 
     {
         private List<IProducto> productos;
         private IFileHandler fileController;
@@ -116,5 +116,5 @@ namespace Ferreteria_CC_SA.Controllers
                 throw new KeyNotFoundException($"No se encontró un producto con ID {idProducto}.");
             }
         }
-    }
+    }*/
 }

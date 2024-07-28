@@ -15,29 +15,19 @@ namespace Ferreteria_CC_SA.Views
     public partial class FormCliente : Form
     {
         private IClienteController clienteController;
-
         public FormCliente(IClienteController clienteController)
         {
             InitializeComponent();
             this.clienteController = clienteController;
-            CargarClientes();
-        }
-        private void CargarClientes()
-        {
             try
             {
-                clienteController.LoadClient("clientes.csv");
+                this.clienteController.LoadClient();
                 ActualizarDataGridView();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar clientes: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-        private void ActualizarDataGridView()
-        {
-            dgvClientes.DataSource = null;
-            dgvClientes.DataSource = clienteController.GetClients();
         }
         private void btnAgregarCliente_Click(object sender, EventArgs e)
         {
@@ -53,9 +43,10 @@ namespace Ferreteria_CC_SA.Views
                         Correo = txtCorreo.Text,
                         Telefono = txtTelefono.Text
                     };
+
                     if (clienteController.AddClient(cliente))
                     {
-                        clienteController.SaveClient("clientes.csv");
+                        clienteController.SaveClient();
                         ActualizarDataGridView();
                         MessageBox.Show("Cliente agregado exitosamente.");
                         LimpiarCampos();
@@ -63,7 +54,7 @@ namespace Ferreteria_CC_SA.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al agregar cliente: {ex.Message}");
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -82,7 +73,7 @@ namespace Ferreteria_CC_SA.Views
                         Telefono = txtTelefono.Text
                     };
                     clienteController.EditClient(cliente);
-                    clienteController.SaveClient("clientes.csv");
+                    clienteController.SaveClient();
                     ActualizarDataGridView();
                     MessageBox.Show("Cliente editado exitosamente.");
                     txtIDCliente.ReadOnly = false;
@@ -90,56 +81,76 @@ namespace Ferreteria_CC_SA.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al editar cliente: {ex.Message}");
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
         private void btnEliminarCliente_Click(object sender, EventArgs e)
         {
-            try
+            if (int.TryParse(txtIDCliente.Text, out int idCliente))
             {
-                int idCliente = int.Parse(txtIDCliente.Text);
-                clienteController.DeleteClient(idCliente);
-                clienteController.SaveClient("clientes.csv");
-                ActualizarDataGridView();
-                MessageBox.Show("Cliente eliminado exitosamente.");
-                LimpiarCampos();
+                try
+                {
+                    clienteController.DeleteClient(idCliente);
+                    clienteController.SaveClient();
+                    ActualizarDataGridView();
+                    MessageBox.Show("Cliente eliminado exitosamente.");
+                    txtIDCliente.ReadOnly = false;
+                    LimpiarCampos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Error al eliminar cliente: {ex.Message}");
+                MessageBox.Show("Por favor, ingrese un ID válido.");
             }
         }
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(txtBuscarID.Text, out int idCajero))
+            if (int.TryParse(txtBuscarID.Text, out int idCliente))
             {
-                ObtenerClienteData(idCajero);
+                try
+                {
+                    ObtenerClienteData(idCliente);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                MessageBox.Show("Por favor, ingrese un ID de cajero válido.");
+                MessageBox.Show("Por favor, ingrese un ID de cliente válido.");
             }
         }
         private void ObtenerClienteData(int idCliente)
         {
-            var cliente = clienteController.FindClienteByID(idCliente);
-            if (cliente != null)
+            try
             {
-                txtIDCliente.Text = cliente.IDCliente.ToString();
-                txtNombre.Text = cliente.Nombre;
-                txtApellido.Text = cliente.Apellido;
-                txtCorreo.Text = cliente.Correo;
-                txtTelefono.Text = cliente.Telefono;
-                txtIDCliente.ReadOnly = true;
-
-                MessageBox.Show($"Cliente con ID {idCliente} encontrado.");
-                txtBuscarID.Clear();
+                var cliente = clienteController.FindClienteByID(idCliente);
+                if (cliente != null)
+                {
+                    txtIDCliente.Text = cliente.IDCliente.ToString();
+                    txtNombre.Text = cliente.Nombre;
+                    txtApellido.Text = cliente.Apellido;
+                    txtCorreo.Text = cliente.Correo;
+                    txtTelefono.Text = cliente.Telefono;
+                    MessageBox.Show($"Cliente con ID {idCliente} encontrado.");
+                    txtIDCliente.ReadOnly = true;
+                    txtBuscarID.Clear();
+                }
+                else
+                {
+                    MessageBox.Show($"Cliente con ID {idCliente} no encontrado.");
+                    txtBuscarID.Clear();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show($"Cliente con ID {idCliente} no encontrado.");
-                txtBuscarID.Clear();
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool ValidarCampos()
@@ -162,6 +173,11 @@ namespace Ferreteria_CC_SA.Views
             txtApellido.Clear();
             txtCorreo.Clear();
             txtTelefono.Clear();
+        }
+        private void ActualizarDataGridView()
+        {
+            dgvClientes.DataSource = null;
+            dgvClientes.DataSource = clienteController.GetClients();
         }
     }
 }

@@ -14,9 +14,9 @@ namespace Ferreteria_CC_SA.Views
 {
     public partial class FormInventario : Form
     {
-        private ProductoController productoController;
+        /*private ProductoController productoController;
 
-        /*public FormInventario()
+        public FormInventario()
         {
             InitializeComponent();
             string filePath = "productos.csv";

@@ -12,9 +12,9 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Loads the file.
         /// </summary>
-        /// <param name="path">The path.</param>
+        /// <param name="filepath">The path.</param>
         /// <returns></returns>
-        string LoadFile(string path);
+        string LoadFile(string filepath);
         /// <summary>
         /// Writes all lines.
         /// </summary>
@@ -24,8 +24,8 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Creates the new file.
         /// </summary>
-        /// <param name="path">The path.</param>
+        /// <param name="filepath">The path.</param>
         /// <param name="header">The header.</param>
-        void CreateNewFile(string path, string header);
+        void CreateNewFile(string filepath, string header);
     }
 }

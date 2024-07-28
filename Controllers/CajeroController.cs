@@ -21,11 +21,15 @@ namespace Ferreteria_CC_SA.Controllers
         /// </summary>
         private List<ICajero> cajeros;
         /// <summary>
+        /// The filepath for csv file
+        /// </summary>
+        private static readonly string Filepath = "cajeros.csv";
+        /// <summary>
         /// The file handler
         /// </summary>
         private readonly IFileHandler fileHandler;
         /// <summary>
-        /// Initializes a new instance of the <see cref="CajeroController"/> class.
+        /// Initializes a new instance of the <see cref="CajeroController" /> class.
         /// </summary>
         /// <param name="fileHandler">The file handler.</param>
         public CajeroController(IFileHandler fileHandler)
@@ -44,20 +48,26 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Loads the cashier.
         /// </summary>
-        /// <param name="path">The path.</param>
-        public void LoadCashier(string path)
+        /// <exception cref="System.IO.FileNotFoundException">El archivo de cajeros no se encontró y se creó uno nuevo.\nPor favor, ingrese con usuario administrador.</exception>
+        /// <exception cref="System.Exception">
+        /// Error en el formato de una línea del archivo: {ex.Message}\nLínea problemática: {line}
+        /// or
+        /// Línea mal formateada en el archivo: {line}
+        /// or
+        /// Error: {ex.Message}
+        /// </exception>
+        public void LoadCashier()
         {
             cajeros.Clear();
             try
             {
-                if (!File.Exists(path))
+                if (!File.Exists(Filepath))
                 {
                     string header = "IDCajero,Nombre,Apellido,Usuario,Contrasena\n";
-                    fileHandler.CreateNewFile(path, header);
-                    MessageBox.Show("El archivo de cajeros no se encontró y se creó uno nuevo.\nPor favor, ingrese con usuario administrador.");
-                    return;
+                    fileHandler.CreateNewFile(Filepath, header);
+                    throw new FileNotFoundException("El archivo de cajeros no se encontró y se creó uno nuevo.\nPor favor, ingrese con usuario administrador.");
                 }
-                var content = fileHandler.LoadFile(path);
+                var content = fileHandler.LoadFile(Filepath);
                 var lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var line in lines.Skip(1))
@@ -79,29 +89,25 @@ namespace Ferreteria_CC_SA.Controllers
                         }
                         catch (FormatException ex)
                         {
-                            MessageBox.Show($"Error en el formato de una línea del archivo: {ex.Message}\nLínea problemática: {line}");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Error al procesar una línea del archivo: {ex.Message}\nLínea problemática: {line}");
+                            throw new Exception($"Error en el formato de una línea del archivo: {ex.Message}\nLínea problemática: {line}");
                         }
                     }
                     else
                     {
-                        MessageBox.Show($"Línea mal formateada en el archivo: {line}");
+                        throw new Exception($"Línea mal formateada en el archivo: {line}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar cajeros: {ex.Message}");
+                throw new Exception($"{ex.Message}");
             }
         }
         /// <summary>
         /// Saves the cashier.
         /// </summary>
-        /// <param name="path">The path.</param>
-        public void SaveCashier(string path)
+        /// <exception cref="System.Exception">Error al guardar cajero: {ex.Message}</exception>
+        public void SaveCashier()
         {
             try
             {
@@ -115,11 +121,11 @@ namespace Ferreteria_CC_SA.Controllers
                     lines.Add($"{c.IDCajero},{c.Nombre},{c.Apellido},{c.Usuario},{c.Contrasena}");
                 }
 
-                fileHandler.WriteAllLines(path, lines.ToArray());
+                fileHandler.WriteAllLines(Filepath, lines.ToArray());
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar cajeros: {ex.Message}");
+                throw new Exception($"Error al guardar cajero: {ex.Message}");
             }
         }
         /// <summary>
@@ -127,12 +133,12 @@ namespace Ferreteria_CC_SA.Controllers
         /// </summary>
         /// <param name="cajero">The cajero.</param>
         /// <returns></returns>
+        /// <exception cref="System.ArgumentException">El cajero con ID {cajero.IDCajero} ya existe. Por favor ingrese otro.</exception>
         public bool AddCashier(ICajero cajero)
         {
             if (cajeros.Any(c => c.IDCajero == cajero.IDCajero))
             {
-                MessageBox.Show($"El cajero con ID {cajero.IDCajero} ya existe. Por favor ingrese otro.");
-                return false;
+                throw new ArgumentException($"El cajero con ID {cajero.IDCajero} ya existe. Por favor ingrese otro.");
             }
             cajeros.Add(cajero);
             return true;
@@ -142,6 +148,8 @@ namespace Ferreteria_CC_SA.Controllers
         /// Edits the cashier.
         /// </summary>
         /// <param name="cajero">The cajero.</param>
+        /// <exception cref="System.Exception">El cajero con el ID proporcionado no existe.</exception>
+        /// <exception cref="System.Collections.Generic.KeyNotFoundException">Error al editar cajero</exception>
         public void EditCashier(ICajero cajero)
         {
             try
@@ -153,22 +161,27 @@ namespace Ferreteria_CC_SA.Controllers
                     actualCashier.Apellido = cajero.Apellido;
                     actualCashier.Usuario = cajero.Usuario;
                     actualCashier.Contrasena = cajero.Contrasena;
-                    SaveCashier("cajeros.csv");
+                    SaveCashier();
                 }
                 else
                 {
-                    MessageBox.Show("El cajero con el ID proporcionado no existe.");
+                    throw new Exception("El cajero con el ID proporcionado no existe.");
                 }
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException)
             {
-                MessageBox.Show($"Error al editar cajero: {ex.Message}");
+                throw new KeyNotFoundException("Error al editar cajero");
             }
         }
         /// <summary>
         /// Deletes the cashier.
         /// </summary>
         /// <param name="idCajero">The identifier cajero.</param>
+        /// <exception cref="System.Exception">
+        /// El cajero con el ID proporcionado no existe.
+        /// or
+        /// Error al eliminar cajero: {ex.Message}
+        /// </exception>
         public void DeleteCashier(int idCajero)
         {
             try
@@ -178,10 +191,14 @@ namespace Ferreteria_CC_SA.Controllers
                 {
                     cajeros.Remove(cajero);
                 }
+                else
+                {
+                    throw new Exception("El cajero con el ID proporcionado no existe.");
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar cajero: {ex.Message}");
+                throw new Exception($"Error al eliminar cajero: {ex.Message}");
             }
         }
         /// <summary>
@@ -206,8 +223,7 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Generates the initial cashiers.
         /// </summary>
-        /// <param name="path">The path.</param>
-        public void GenerateInitialCashiers(string path)
+        public void GenerateInitialCashiers()
         {
             var initialCashiers = new List<ICajero>
                 {
@@ -215,7 +231,7 @@ namespace Ferreteria_CC_SA.Controllers
                 };
             cajeros.Clear();
             cajeros.AddRange(initialCashiers);
-            SaveCashier(path);
+            SaveCashier();
         }
     }
 }

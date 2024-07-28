@@ -16,13 +16,11 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Loads the client.
         /// </summary>
-        /// <param name="path">The path.</param>
-        void LoadClient(string path);
+        void LoadClient();
         /// <summary>
         /// Saves the client.
         /// </summary>
-        /// <param name="path">The path.</param>
-        void SaveClient(string path);
+        void SaveClient();
         /// <summary>
         /// Adds the client.
         /// </summary>
@@ -33,7 +31,6 @@ namespace Ferreteria_CC_SA.Controllers
         /// Edits the client.
         /// </summary>
         /// <param name="cliente">The cliente.</param>
-        /// <param name="oldID">The old identifier.</param>
         void EditClient(ICliente cliente);
         /// <summary>
         /// Deletes the client.

@@ -19,18 +19,14 @@ namespace Ferreteria_CC_SA.Views
         {
             InitializeComponent();
             this.cajeroController = cajeroController;
-            CargarCajeros();
-        }
-        private void CargarCajeros()
-        {
             try
             {
-                cajeroController.LoadCashier("cajeros.csv");
+                this.cajeroController.LoadCashier();
                 ActualizarDataGridView();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar cajeros: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnAgregarCajero_Click(object sender, EventArgs e)
@@ -50,7 +46,7 @@ namespace Ferreteria_CC_SA.Views
 
                     if (cajeroController.AddCashier(cajero))
                     {
-                        cajeroController.SaveCashier("cajeros.csv");
+                        cajeroController.SaveCashier();
                         ActualizarDataGridView();
                         MessageBox.Show("Cajero agregado exitosamente.");
                         LimpiarCampos();
@@ -58,7 +54,7 @@ namespace Ferreteria_CC_SA.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al agregar cajero: {ex.Message}");
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -77,7 +73,7 @@ namespace Ferreteria_CC_SA.Views
                         Contrasena = txtContrasena.Text
                     };
                     cajeroController.EditCashier(cajero);
-                    cajeroController.SaveCashier("cajeros.csv");
+                    cajeroController.SaveCashier();
                     ActualizarDataGridView();
                     MessageBox.Show("Cajero editado exitosamente.");
                     txtIDCajero.ReadOnly = false;
@@ -85,7 +81,7 @@ namespace Ferreteria_CC_SA.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al editar cajero: {ex.Message}");
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -93,11 +89,19 @@ namespace Ferreteria_CC_SA.Views
         {
             if (int.TryParse(txtIDCajero.Text, out int idCajero))
             {
-                cajeroController.DeleteCashier(idCajero);
-                cajeroController.SaveCashier("cajeros.csv");
-                ActualizarDataGridView();
-                MessageBox.Show("Cajero eliminado exitosamente.");
-                LimpiarCampos();
+                try
+                {
+                    cajeroController.DeleteCashier(idCajero);
+                    cajeroController.SaveCashier();
+                    ActualizarDataGridView();
+                    MessageBox.Show("Cajero eliminado exitosamente.");
+                    txtIDCajero.ReadOnly = false;
+                    LimpiarCampos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -108,7 +112,14 @@ namespace Ferreteria_CC_SA.Views
         {
             if (int.TryParse(txtBuscarID.Text, out int idCajero))
             {
-                ObtenerCajeroData(idCajero);
+                try
+                {
+                    ObtenerCajeroData(idCajero);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -117,22 +128,29 @@ namespace Ferreteria_CC_SA.Views
         }
         private void ObtenerCajeroData(int idCajero)
         {
-            var cajero = cajeroController.FindCashierByID(idCajero);
-            if (cajero != null)
+            try
             {
-                txtIDCajero.Text = cajero.IDCajero.ToString();
-                txtNombre.Text = cajero.Nombre;
-                txtApellido.Text = cajero.Apellido;
-                txtUsuario.Text = cajero.Usuario;
-                txtContrasena.Text = cajero.Contrasena;
-                MessageBox.Show($"Cajero con ID {idCajero} encontrado.");
-                txtIDCajero.ReadOnly = true;
-                txtBuscarID.Clear();
+                var cajero = cajeroController.FindCashierByID(idCajero);
+                if (cajero != null)
+                {
+                    txtIDCajero.Text = cajero.IDCajero.ToString();
+                    txtNombre.Text = cajero.Nombre;
+                    txtApellido.Text = cajero.Apellido;
+                    txtUsuario.Text = cajero.Usuario;
+                    txtContrasena.Text = cajero.Contrasena;
+                    MessageBox.Show($"Cajero con ID {idCajero} encontrado.");
+                    txtIDCajero.ReadOnly = true;
+                    txtBuscarID.Clear();
+                }
+                else
+                {
+                    MessageBox.Show($"Cajero con ID {idCajero} no encontrado.");
+                    txtBuscarID.Clear();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show($"Cajero con ID {idCajero} no encontrado.");
-                txtBuscarID.Clear();
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool ValidarCampos()

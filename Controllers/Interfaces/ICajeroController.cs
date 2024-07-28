@@ -16,13 +16,11 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Loads the cashier.
         /// </summary>
-        /// <param name="path">The path.</param>
-        void LoadCashier(string path);
+        void LoadCashier();
         /// <summary>
         /// Saves the cashier.
         /// </summary>
-        /// <param name="path">The path.</param>
-        void SaveCashier(string path);
+        void SaveCashier();
         /// <summary>
         /// Adds the cashier.
         /// </summary>
@@ -32,7 +30,6 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Edits the cashier.
         /// </summary>
-        /// <param name="oldID">The old identifier.</param>
         /// <param name="cajero">The cajero.</param>
         void EditCashier(ICajero cajero);
         /// <summary>
@@ -56,7 +53,6 @@ namespace Ferreteria_CC_SA.Controllers
         /// <summary>
         /// Generates the initial cashiers.
         /// </summary>
-        /// <param name="path">The path.</param>
-        void GenerateInitialCashiers(string path);
+        void GenerateInitialCashiers();
     }
 }
