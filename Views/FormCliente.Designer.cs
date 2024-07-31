@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCliente));
             this.btnEliminarCajero = new System.Windows.Forms.Button();
             this.btnBuscarCajero = new System.Windows.Forms.Button();
             this.txtBuscarID = new System.Windows.Forms.TextBox();
@@ -50,11 +51,12 @@
             // btnEliminarCajero
             // 
             this.btnEliminarCajero.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))));
+            this.btnEliminarCajero.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEliminarCajero.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminarCajero.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarCajero.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(44)))), ((int)(((byte)(88)))));
             this.btnEliminarCajero.Location = new System.Drawing.Point(176, 305);
-            this.btnEliminarCajero.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEliminarCajero.Margin = new System.Windows.Forms.Padding(2);
             this.btnEliminarCajero.Name = "btnEliminarCajero";
             this.btnEliminarCajero.Size = new System.Drawing.Size(67, 25);
             this.btnEliminarCajero.TabIndex = 63;
@@ -65,11 +67,12 @@
             // btnBuscarCajero
             // 
             this.btnBuscarCajero.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))));
+            this.btnBuscarCajero.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBuscarCajero.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBuscarCajero.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscarCajero.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(44)))), ((int)(((byte)(88)))));
-            this.btnBuscarCajero.Location = new System.Drawing.Point(650, 31);
-            this.btnBuscarCajero.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnBuscarCajero.Location = new System.Drawing.Point(737, 31);
+            this.btnBuscarCajero.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscarCajero.Name = "btnBuscarCajero";
             this.btnBuscarCajero.Size = new System.Drawing.Size(67, 25);
             this.btnBuscarCajero.TabIndex = 62;
@@ -80,8 +83,8 @@
             // txtBuscarID
             // 
             this.txtBuscarID.Font = new System.Drawing.Font("Century Gothic", 9.75F);
-            this.txtBuscarID.Location = new System.Drawing.Point(436, 31);
-            this.txtBuscarID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtBuscarID.Location = new System.Drawing.Point(523, 31);
+            this.txtBuscarID.Margin = new System.Windows.Forms.Padding(2);
             this.txtBuscarID.Name = "txtBuscarID";
             this.txtBuscarID.Size = new System.Drawing.Size(210, 23);
             this.txtBuscarID.TabIndex = 61;
@@ -89,11 +92,12 @@
             // btnEditarCajero
             // 
             this.btnEditarCajero.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))));
+            this.btnEditarCajero.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditarCajero.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditarCajero.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditarCajero.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(44)))), ((int)(((byte)(88)))));
             this.btnEditarCajero.Location = new System.Drawing.Point(105, 305);
-            this.btnEditarCajero.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEditarCajero.Margin = new System.Windows.Forms.Padding(2);
             this.btnEditarCajero.Name = "btnEditarCajero";
             this.btnEditarCajero.Size = new System.Drawing.Size(67, 25);
             this.btnEditarCajero.TabIndex = 60;
@@ -104,11 +108,12 @@
             // btnAgregarCajero
             // 
             this.btnAgregarCajero.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))));
+            this.btnAgregarCajero.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAgregarCajero.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAgregarCajero.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregarCajero.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregarCajero.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(44)))), ((int)(((byte)(88)))));
             this.btnAgregarCajero.Location = new System.Drawing.Point(34, 305);
-            this.btnAgregarCajero.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAgregarCajero.Margin = new System.Windows.Forms.Padding(2);
             this.btnAgregarCajero.Name = "btnAgregarCajero";
             this.btnAgregarCajero.Size = new System.Drawing.Size(67, 25);
             this.btnAgregarCajero.TabIndex = 59;
@@ -121,11 +126,11 @@
             this.dgvClientes.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(23)))), ((int)(((byte)(28)))));
             this.dgvClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClientes.Location = new System.Drawing.Point(248, 60);
-            this.dgvClientes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvClientes.Margin = new System.Windows.Forms.Padding(2);
             this.dgvClientes.Name = "dgvClientes";
             this.dgvClientes.RowHeadersWidth = 51;
             this.dgvClientes.RowTemplate.Height = 24;
-            this.dgvClientes.Size = new System.Drawing.Size(469, 229);
+            this.dgvClientes.Size = new System.Drawing.Size(556, 229);
             this.dgvClientes.TabIndex = 58;
             // 
             // lblTelefono
@@ -144,7 +149,7 @@
             // 
             this.txtTelefono.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.txtTelefono.Location = new System.Drawing.Point(33, 267);
-            this.txtTelefono.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTelefono.Margin = new System.Windows.Forms.Padding(2);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(210, 23);
             this.txtTelefono.TabIndex = 56;
@@ -165,7 +170,7 @@
             // 
             this.txtCorreo.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.txtCorreo.Location = new System.Drawing.Point(33, 216);
-            this.txtCorreo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCorreo.Margin = new System.Windows.Forms.Padding(2);
             this.txtCorreo.Name = "txtCorreo";
             this.txtCorreo.Size = new System.Drawing.Size(210, 23);
             this.txtCorreo.TabIndex = 54;
@@ -186,7 +191,7 @@
             // 
             this.txtApellido.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.txtApellido.Location = new System.Drawing.Point(33, 162);
-            this.txtApellido.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtApellido.Margin = new System.Windows.Forms.Padding(2);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(210, 23);
             this.txtApellido.TabIndex = 52;
@@ -207,7 +212,7 @@
             // 
             this.txtNombre.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.txtNombre.Location = new System.Drawing.Point(33, 110);
-            this.txtNombre.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(2);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(210, 23);
             this.txtNombre.TabIndex = 50;
@@ -228,7 +233,7 @@
             // 
             this.txtIDCliente.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             this.txtIDCliente.Location = new System.Drawing.Point(33, 60);
-            this.txtIDCliente.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtIDCliente.Margin = new System.Windows.Forms.Padding(2);
             this.txtIDCliente.Name = "txtIDCliente";
             this.txtIDCliente.Size = new System.Drawing.Size(210, 23);
             this.txtIDCliente.TabIndex = 48;
@@ -238,7 +243,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(7)))), ((int)(((byte)(21)))));
-            this.ClientSize = new System.Drawing.Size(734, 360);
+            this.ClientSize = new System.Drawing.Size(838, 360);
             this.Controls.Add(this.btnEliminarCajero);
             this.Controls.Add(this.btnBuscarCajero);
             this.Controls.Add(this.txtBuscarID);
@@ -255,11 +260,13 @@
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblClienteID);
             this.Controls.Add(this.txtIDCliente);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "FormCliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormCliente";
+            this.Text = "Módulo de Clientes";
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

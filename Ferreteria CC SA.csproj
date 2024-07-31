@@ -106,6 +106,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Views\FormCajero.resx">
       <DependentUpon>FormCajero.cs</DependentUpon>
@@ -122,6 +123,9 @@
     <EmbeddedResource Include="Views\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\FormVenta.resx">
+      <DependentUpon>FormVenta.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -135,6 +139,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\img\Cashier.png" />
+    <Content Include="Views\img\CashierIcon.ico" />
+    <Content Include="Views\img\Client.png" />
+    <Content Include="Views\img\ClientIcon.ico" />
+    <Content Include="Views\img\FerreIcon.ico" />
+    <Content Include="Views\img\Product.png" />
+    <Content Include="Views\img\ProductIcon.ico" />
+    <Content Include="Views\img\Sell.png" />
+    <Content Include="Views\img\SellIcon.ico" />
+    <None Include="Views\img\FerreImg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

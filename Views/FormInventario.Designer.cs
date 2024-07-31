@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormInventario));
             this.btnEliminarProducto = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtBuscarID = new System.Windows.Forms.TextBox();
@@ -50,6 +51,7 @@
             // btnEliminarProducto
             // 
             this.btnEliminarProducto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))));
+            this.btnEliminarProducto.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEliminarProducto.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminarProducto.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarProducto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(44)))), ((int)(((byte)(88)))));
@@ -64,10 +66,11 @@
             // btnBuscar
             // 
             this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))));
+            this.btnBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBuscar.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(44)))), ((int)(((byte)(88)))));
-            this.btnBuscar.Location = new System.Drawing.Point(650, 31);
+            this.btnBuscar.Location = new System.Drawing.Point(737, 31);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(67, 25);
@@ -78,7 +81,7 @@
             // txtBuscarID
             // 
             this.txtBuscarID.Font = new System.Drawing.Font("Century Gothic", 9.75F);
-            this.txtBuscarID.Location = new System.Drawing.Point(436, 31);
+            this.txtBuscarID.Location = new System.Drawing.Point(523, 31);
             this.txtBuscarID.Margin = new System.Windows.Forms.Padding(2);
             this.txtBuscarID.Name = "txtBuscarID";
             this.txtBuscarID.Size = new System.Drawing.Size(210, 23);
@@ -87,6 +90,7 @@
             // btnEditarProducto
             // 
             this.btnEditarProducto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))));
+            this.btnEditarProducto.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditarProducto.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditarProducto.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditarProducto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(44)))), ((int)(((byte)(88)))));
@@ -101,8 +105,9 @@
             // btnAgregarProducto
             // 
             this.btnAgregarProducto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))));
+            this.btnAgregarProducto.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAgregarProducto.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAgregarProducto.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregarProducto.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregarProducto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(44)))), ((int)(((byte)(88)))));
             this.btnAgregarProducto.Location = new System.Drawing.Point(34, 305);
             this.btnAgregarProducto.Margin = new System.Windows.Forms.Padding(2);
@@ -121,7 +126,7 @@
             this.dgvProductos.Name = "dgvProductos";
             this.dgvProductos.RowHeadersWidth = 51;
             this.dgvProductos.RowTemplate.Height = 24;
-            this.dgvProductos.Size = new System.Drawing.Size(469, 229);
+            this.dgvProductos.Size = new System.Drawing.Size(556, 229);
             this.dgvProductos.TabIndex = 26;
             // 
             // lblCantidad
@@ -234,7 +239,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(7)))), ((int)(((byte)(21)))));
-            this.ClientSize = new System.Drawing.Size(734, 360);
+            this.ClientSize = new System.Drawing.Size(838, 360);
             this.Controls.Add(this.btnEliminarProducto);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtBuscarID);
@@ -251,10 +256,12 @@
             this.Controls.Add(this.txtNombreProducto);
             this.Controls.Add(this.lblProductID);
             this.Controls.Add(this.txtIDProducto);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormInventario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormInventario";
+            this.Text = "Módulo de Productos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
