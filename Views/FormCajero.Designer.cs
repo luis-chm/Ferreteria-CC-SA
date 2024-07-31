@@ -266,7 +266,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "FormCajero";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormCajero";
             ((System.ComponentModel.ISupportInitialize)(this.dgvCajeros)).EndInit();
             this.ResumeLayout(false);
