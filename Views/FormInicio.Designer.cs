@@ -43,7 +43,7 @@
             this.btnVenta.Location = new System.Drawing.Point(236, 143);
             this.btnVenta.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnVenta.Name = "btnVenta";
-            this.btnVenta.Size = new System.Drawing.Size(67, 25);
+            this.btnVenta.Size = new System.Drawing.Size(77, 25);
             this.btnVenta.TabIndex = 7;
             this.btnVenta.Text = "Venta";
             this.btnVenta.UseVisualStyleBackColor = false;
@@ -57,7 +57,7 @@
             this.btnCliente.Location = new System.Drawing.Point(236, 57);
             this.btnCliente.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCliente.Name = "btnCliente";
-            this.btnCliente.Size = new System.Drawing.Size(67, 25);
+            this.btnCliente.Size = new System.Drawing.Size(77, 25);
             this.btnCliente.TabIndex = 6;
             this.btnCliente.Text = "Cliente";
             this.btnCliente.UseVisualStyleBackColor = false;
@@ -72,10 +72,11 @@
             this.btnProducto.Location = new System.Drawing.Point(45, 143);
             this.btnProducto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnProducto.Name = "btnProducto";
-            this.btnProducto.Size = new System.Drawing.Size(67, 25);
+            this.btnProducto.Size = new System.Drawing.Size(77, 25);
             this.btnProducto.TabIndex = 5;
             this.btnProducto.Text = "Producto";
             this.btnProducto.UseVisualStyleBackColor = false;
+            this.btnProducto.Click += new System.EventHandler(this.btnProducto_Click);
             // 
             // btn_Cajero
             // 
@@ -86,7 +87,7 @@
             this.btn_Cajero.Location = new System.Drawing.Point(45, 57);
             this.btn_Cajero.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_Cajero.Name = "btn_Cajero";
-            this.btn_Cajero.Size = new System.Drawing.Size(67, 25);
+            this.btn_Cajero.Size = new System.Drawing.Size(77, 25);
             this.btn_Cajero.TabIndex = 4;
             this.btn_Cajero.Text = "Cajero";
             this.btn_Cajero.UseVisualStyleBackColor = false;

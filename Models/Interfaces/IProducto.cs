@@ -39,6 +39,6 @@
         /// <value>
         /// The stock.
         /// </value>
-        int Stock { get; set; }
+        int Cantidad { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace Ferreteria_CC_SA.Models
         /// <value>
         /// The stock.
         /// </value>
-        public int Stock { get; set; }
+        public int Cantidad { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Producto"/> class.
@@ -61,14 +61,14 @@ namespace Ferreteria_CC_SA.Models
         /// <param name="nombre">The nombre.</param>
         /// <param name="descripcion">The descripcion.</param>
         /// <param name="precio">The precio.</param>
-        /// <param name="stock">The stock.</param>
-        public Producto(int idproducto, string nombre, string descripcion, decimal precio, int stock)
+        /// <param name="cantidad">The stock.</param>
+        public Producto(int idproducto, string nombre, string descripcion, decimal precio, int cantidad)
         {
             IDProducto = idproducto;
             Nombre = nombre;
             Descripcion = descripcion;
             Precio = precio;
-            Stock = stock;
+            Cantidad = cantidad;
         }
 
     }

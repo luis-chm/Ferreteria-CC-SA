@@ -14,82 +14,176 @@ namespace Ferreteria_CC_SA.Views
 {
     public partial class FormInventario : Form
     {
-        /*private ProductoController productoController;
-
-        public FormInventario()
+        private IProductoController productoController;
+        public FormInventario(IProductoController productoController)
         {
             InitializeComponent();
-            string filePath = "productos.csv";
-            IFileHandler fileController = new FileController();
+            this.productoController = productoController;
             try
             {
-                productoController = new ProductoController(fileController, filePath);
+                this.productoController.LoadProducts();
+                ActualizarDataGridView();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al iniciar el controlador de productos: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnAgregarProducto_Click(object sender, EventArgs e)
         {
-            try
+            if (ValidarProducto())
             {
-                var producto = new Producto
+                try
                 {
-                    IDProducto = int.Parse(txtIDProducto.Text),
-                    Nombre = txtNombreProducto.Text,
-                    Descripcion = txtDescripcionProducto.Text,
-                    Precio = decimal.Parse(txtPrecioProducto.Text),
-                    Cantidad = int.Parse(txtStockProducto.Text)
-                };
+                    var producto = new Producto
+                    {
+                        IDProducto = new Random().Next(1000, 9999),
+                        Nombre = txtNombreProducto.Text,
+                        Descripcion = txtDescripcionProducto.Text,
+                        Precio = decimal.Parse(txtPrecioProducto.Text),
+                        Cantidad = int.Parse(txtStockProducto.Text)
+                    };
 
-                productoController.AgregarProducto(producto);
-                productoController.GuardarProductos();
-                MessageBox.Show("Producto agregado correctamente.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al agregar producto: {ex.Message}");
+                    if (productoController.AddProduct(producto))
+                    {
+                        productoController.SaveProducts();
+                        ActualizarDataGridView();
+                        MessageBox.Show("Producto agregado exitosamente.");
+                        LimpiarCampos();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
         private void btnEditarProducto_Click(object sender, EventArgs e)
         {
-            try
+            if (ValidarProducto())
             {
-                var producto = new Producto
+                try
                 {
-                    IDProducto = int.Parse(txtIDProducto.Text),
-                    Nombre = txtNombreProducto.Text,
-                    Descripcion = txtDescripcionProducto.Text,
-                    Precio = decimal.Parse(txtPrecioProducto.Text),
-                    Stock = int.Parse(txtStockProducto.Text)
-                };
-
-                productoController.EditarProducto(int.Parse(txtOldIDProducto.Text), producto);
-                productoController.GuardarProductos();
-                MessageBox.Show("Producto editado correctamente.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al editar producto: {ex.Message}");
+                    var producto = new Producto
+                    {
+                        IDProducto = int.Parse(txtIDProducto.Text),
+                        Nombre = txtNombreProducto.Text,
+                        Descripcion = txtDescripcionProducto.Text,
+                        Precio = decimal.Parse(txtPrecioProducto.Text),
+                        Cantidad = int.Parse(txtStockProducto.Text)
+                    };
+                    productoController.EditProduct(producto);
+                    productoController.SaveProducts();
+                    ActualizarDataGridView();
+                    MessageBox.Show("Producto editado exitosamente.");
+                    txtIDProducto.ReadOnly = false;
+                    LimpiarCampos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
         private void btnEliminarProducto_Click(object sender, EventArgs e)
         {
+            if (int.TryParse(txtIDProducto.Text, out int idProducto))
+            {
+                try
+                {
+                    productoController.DeleteProduct(idProducto);
+                    productoController.SaveProducts();
+                    ActualizarDataGridView();
+                    MessageBox.Show("Producto eliminado exitosamente.");
+                    LimpiarCampos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, ingrese un ID válido.");
+            }
+        }
+
+        private void btnBuscarProducto_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtBuscarID.Text, out int idProducto))
+            {
+                try
+                {
+                    CargarProducto(idProducto);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, ingrese un ID de producto válido.");
+            }
+        }
+
+        private void CargarProducto(int idProducto)
+        {
             try
             {
-                int idProducto = int.Parse(txtIDProducto.Text);
-                productoController.EliminarProducto(idProducto);
-                productoController.GuardarProductos();
-                MessageBox.Show("Producto eliminado correctamente.");
+                var producto = productoController.FindProductByID(idProducto);
+                if (producto != null)
+                {
+                    txtIDProducto.Text = producto.IDProducto.ToString();
+                    txtIDProducto.ReadOnly = true;
+                    txtNombreProducto.Text = producto.Nombre;
+                    txtDescripcionProducto.Text = producto.Descripcion;
+                    txtPrecioProducto.Text = producto.Precio.ToString();
+                    txtStockProducto.Text = producto.Cantidad.ToString();
+                    MessageBox.Show($"Producto con ID {idProducto} encontrado.");
+                    txtBuscarID.Clear();
+                }
+                else
+                {
+                    MessageBox.Show($"Producto con ID {idProducto} no encontrado.");
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar producto: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }*/
+        }
+
+        private bool ValidarProducto()
+        {
+            if (string.IsNullOrWhiteSpace(txtNombreProducto.Text) ||
+                string.IsNullOrWhiteSpace(txtDescripcionProducto.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioProducto.Text) ||
+                string.IsNullOrWhiteSpace(txtStockProducto.Text))
+            {
+                MessageBox.Show("Todos los campos son obligatorios.");
+                return false;
+            }
+            return true;
+        }
+
+        private void LimpiarCampos()
+        {
+            txtIDProducto.Clear();
+            txtIDProducto.ReadOnly = false;
+            txtNombreProducto.Clear();
+            txtDescripcionProducto.Clear();
+            txtPrecioProducto.Clear();
+            txtStockProducto.Clear();
+        }
+
+        private void ActualizarDataGridView()
+        {
+            dgvProductos.DataSource = null;
+            dgvProductos.DataSource = productoController.GetProducts();
+        }
     }
 }

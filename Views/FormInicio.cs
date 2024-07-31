@@ -31,19 +31,20 @@ namespace Ferreteria_CC_SA.Views
             formCajero.Show();
         }
 
-        /*private void btnProducto_Click(object sender, EventArgs e)
+        private void btnProducto_Click(object sender, EventArgs e)
         {
             if (formInventario == null)
             {
-                IProductoController productoController = new ProductoController();
+                IFileHandler fileHandler = new FileController();
+                IProductoController productoController = new ProductoController(fileHandler);
                 formInventario = new FormInventario(productoController);
                 formInventario.FormClosed += (s, args) => this.Show();
             }
             this.Hide();
             formInventario.Show();
-        }*/
+        }
 
-       private void btnCliente_Click(object sender, EventArgs e)
+        private void btnCliente_Click(object sender, EventArgs e)
         {
             if (formCliente == null)
             {

@@ -5,9 +5,13 @@ namespace Ferreteria_CC_SA.Controllers
 {
     public interface IProductoController
     {
-        List<IProducto> ObtenerProductos();
-        void AgregarProducto(IProducto producto);
-        void EditarProducto(int oldID, IProducto producto);
-        void EliminarProducto(int idProducto);
+        List<IProducto> GetProducts();
+        void LoadProducts();
+        void SaveProducts();
+        bool AddProduct(IProducto producto);
+        void EditProduct(IProducto producto);
+        void DeleteProduct(int idProducto);
+        IProducto FindProductByID(int idProducto);
+        void CheckStock(IProducto producto);
     }
 }

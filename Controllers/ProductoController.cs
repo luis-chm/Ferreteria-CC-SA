@@ -9,19 +9,52 @@ using System.Windows.Forms;
 
 namespace Ferreteria_CC_SA.Controllers
 {
-    /*public class ProductoController 
+    public class ProductoController : IProductoController
     {
         private List<IProducto> productos;
-        private IFileHandler fileController;
-        private string filePath;
+        private IFileHandler fileHandler;
+        private static readonly string filepath = "productos.csv";
 
-        public ProductoController(IFileHandler fileController, string filePath)
+        public ProductoController(IFileHandler fileHandler)
         {
-            this.fileController = fileController;
-            this.filePath = filePath;
+            productos = new List<IProducto>();
+            this.fileHandler = fileHandler;
+
+        }
+        public List<IProducto> GetProducts()
+        {
+            return productos;
+        }
+
+        public void LoadProducts()
+        {
+            productos.Clear();
             try
             {
-                CargarProductos();
+                if (!File.Exists(filepath))
+                {
+                    string header = "IDProducto,Nombre,Descripcion,Precio,Cantidad\n";
+                    File.WriteAllText(filepath, header);
+                    throw new FileNotFoundException("El archivo de productos no se encontró y se creó uno nuevo. Por favor, agregue productos.");
+                }
+
+                var content = File.ReadAllLines(filepath);
+                foreach (var line in content.Skip(1))
+                {
+                    var parts = line.Split(',');
+                    if (parts.Length == 5)
+                    {
+                        var producto = new Producto
+                        {
+                            IDProducto = int.Parse(parts[0].Trim()),
+                            Nombre = parts[1].Trim(),
+                            Descripcion = parts[2].Trim(),
+                            Precio = decimal.Parse(parts[3].Trim()),
+                            Cantidad = int.Parse(parts[4].Trim())
+                        };
+                        productos.Add(producto);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -29,40 +62,13 @@ namespace Ferreteria_CC_SA.Controllers
             }
         }
 
-        public List<IProducto> ObtenerProductos()
-        {
-            return productos;
-        }
-
-        private void CargarProductos()
-        {
-            if (!File.Exists(filePath))
-            {
-                try
-                {
-                    fileController.GenerateInitialProducts(filePath);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error al generar productos iniciales: {ex.Message}");
-                }
-            }
-
-            try
-            {
-                productos = fileController.LoadProducts(filePath);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al cargar productos del archivo: {ex.Message}");
-            }
-        }
-
-        public void GuardarProductos()
+        public void SaveProducts()
         {
             try
             {
-                fileController.SaveProducts(filePath, productos);
+                var lines = new List<string> { "IDProducto,Nombre,Descripcion,Precio,Cantidad" };
+                lines.AddRange(productos.Select(p => $"{p.IDProducto},{p.Nombre},{p.Descripcion},{p.Precio},{p.Cantidad}"));
+                File.WriteAllLines(filepath, lines);
             }
             catch (Exception ex)
             {
@@ -70,51 +76,60 @@ namespace Ferreteria_CC_SA.Controllers
             }
         }
 
-        public void AgregarProducto(IProducto producto)
+        public bool AddProduct(IProducto producto)
         {
             if (productos.Any(p => p.IDProducto == producto.IDProducto))
             {
-                throw new InvalidOperationException("El producto con ese ID ya existe.");
+                throw new ArgumentException($"El producto con ID {producto.IDProducto} ya existe. Por favor ingrese otro.");
             }
             productos.Add(producto);
+            return true;
         }
 
-        public void EditarProducto(IProducto producto)
+        public void EditProduct(IProducto producto)
         {
-            try
+            var prod = productos.FirstOrDefault(p => p.IDProducto == producto.IDProducto);
+            if (prod != null)
             {
-                var product = productos.FirstOrDefault(c => c.IDProducto == producto.IDProducto);
-
-                if (product != null)
-                {
-                    product.Nombre = cliente.Nombre;
-                    product.Apellido = cliente.Apellido;
-                    product.Correo = cliente.Correo;
-                    product.Telefono = cliente.Telefono;
-                    SaveClient("clientes.csv");
-                }
-                else
-                {
-                    MessageBox.Show("El cliente con el ID proporcionado no existe.");
-                }
+                prod.Nombre = producto.Nombre;
+                prod.Descripcion = producto.Descripcion;
+                prod.Precio = producto.Precio;
+                prod.Cantidad = producto.Cantidad;
+                SaveProducts();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Error al editar cliente: {ex.Message}");
+                throw new KeyNotFoundException("El producto con el ID proporcionado no existe.");
             }
         }
 
-        public void EliminarProducto(int idProducto)
+        public void DeleteProduct(int idProducto)
         {
             var producto = productos.FirstOrDefault(p => p.IDProducto == idProducto);
             if (producto != null)
             {
                 productos.Remove(producto);
+                SaveProducts();
             }
             else
             {
-                throw new KeyNotFoundException($"No se encontró un producto con ID {idProducto}.");
+                throw new KeyNotFoundException("El producto con el ID proporcionado no existe.");
             }
         }
-    }*/
+
+        public IProducto FindProductByID(int idProducto)
+        {
+            return productos.FirstOrDefault(p => p.IDProducto == idProducto);
+        }
+
+        public void CheckStock(IProducto producto)
+        {
+            if (producto.Cantidad < 10) // Threshold for low stock
+            {
+                MessageBox.Show($"El producto con ID {producto.IDProducto} tiene bajo stock: {producto.Cantidad} unidades disponibles.");
+            }
+        }
+
+
+    }
 }
