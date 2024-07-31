@@ -15,6 +15,7 @@ namespace Ferreteria_CC_SA.Views
     public partial class FormCajero : Form
     {
         private ICajeroController cajeroController;
+        public event Action FormCajeroClosed;
         public FormCajero(ICajeroController cajeroController)
         {
             InitializeComponent();
@@ -28,6 +29,11 @@ namespace Ferreteria_CC_SA.Views
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            FormCajeroClosed?.Invoke();
         }
         private void btnAgregarCajero_Click(object sender, EventArgs e)
         {

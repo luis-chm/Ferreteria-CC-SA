@@ -10,7 +10,7 @@ namespace Ferreteria_CC_SA.Views
         private FormInventario formInventario;
         private FormCajero formCajero;
         private FormCliente formCliente;
-        private FormVenta formVenta;
+        //private FormVenta formVenta;
 
         public FormInicio()
         {
@@ -25,7 +25,11 @@ namespace Ferreteria_CC_SA.Views
                 IFileHandler fileHandler = new FileController();
                 ICajeroController cajeroController = new CajeroController(fileHandler);
                 formCajero = new FormCajero(cajeroController);
-                formCajero.FormClosed += (s, args) => this.Show();
+                formCajero.FormCajeroClosed += () =>
+                {
+                    this.Show();
+                    formCajero = null;
+                };
             }
             this.Hide();
             formCajero.Show();
@@ -38,12 +42,15 @@ namespace Ferreteria_CC_SA.Views
                 IFileHandler fileHandler = new FileController();
                 IProductoController productoController = new ProductoController(fileHandler);
                 formInventario = new FormInventario(productoController);
-                formInventario.FormClosed += (s, args) => this.Show();
+                formInventario.FormClosed += (s, args) =>
+                {
+                    this.Show();
+                    formInventario = null;
+                };
             }
             this.Hide();
             formInventario.Show();
         }
-
         private void btnCliente_Click(object sender, EventArgs e)
         {
             if (formCliente == null)
@@ -51,7 +58,11 @@ namespace Ferreteria_CC_SA.Views
                 IFileHandler fileHandler = new FileController();
                 IClienteController clienteController = new ClienteController(fileHandler);
                 formCliente = new FormCliente(clienteController);
-                formCliente.FormClosed += (s, args) => this.Show();
+                formCliente.FormClosed += (s, args) =>
+                {
+                    this.Show();
+                    formCliente = null;
+                };
             }
             this.Hide();
             formCliente.Show();

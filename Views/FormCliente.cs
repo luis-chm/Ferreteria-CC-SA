@@ -15,6 +15,7 @@ namespace Ferreteria_CC_SA.Views
     public partial class FormCliente : Form
     {
         private IClienteController clienteController;
+        public event Action FormClienteClosed;
         public FormCliente(IClienteController clienteController)
         {
             InitializeComponent();
@@ -28,6 +29,11 @@ namespace Ferreteria_CC_SA.Views
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            FormClienteClosed?.Invoke();
         }
         private void btnAgregarCliente_Click(object sender, EventArgs e)
         {

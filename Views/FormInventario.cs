@@ -15,6 +15,7 @@ namespace Ferreteria_CC_SA.Views
     public partial class FormInventario : Form
     {
         private IProductoController productoController;
+        public event Action FormInventarioClosed;
         public FormInventario(IProductoController productoController)
         {
             InitializeComponent();
@@ -28,6 +29,11 @@ namespace Ferreteria_CC_SA.Views
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            FormInventarioClosed?.Invoke();
         }
 
         private void btnAgregarProducto_Click(object sender, EventArgs e)
